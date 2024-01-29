@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('ingredient_id')->constrained()->onDelete('cascade');
             $table->primary(['recipe_id', 'ingredient_id']);
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.

@@ -17,6 +17,8 @@
                         <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Title</th>
                         <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Description</th>
                         <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Image</th>
+                        <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Categories</th>
+                        <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Ingredients</th>
                         <th class="border border-gray-300 dark:border-gray-700 px-4 py-2">Actions</th>
                     </tr>
                 </thead>
@@ -24,8 +26,7 @@
                     @foreach ($recipes as $recipe)
                         <tr>
                             <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $recipe->title }}</td>
-                            <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $recipe->description }}
-                            </td>
+                            <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">{{ $recipe->description }}</td>
                             <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">
                                 @if ($recipe->img)
                                     <img src="{{ asset($recipe->img) }}" alt="{{ $recipe->title }}"
@@ -33,6 +34,16 @@
                                 @else
                                     <!-- Show placeholder image or text if no image is uploaded -->
                                 @endif
+                            </td>
+                            <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">
+                                @foreach ($recipe->categories as $category)
+                                    {{ $category->name }}
+                                @endforeach
+                            </td>
+                            <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">
+                                @foreach ($recipe->ingredients as $ingredient)
+                                    {{ $ingredient->name }},
+                                @endforeach
                             </td>
                             <td class="border border-gray-300 dark:border-gray-700 px-4 py-2">
                                 <a href="{{ route('recipes.edit', $recipe->id) }}"
