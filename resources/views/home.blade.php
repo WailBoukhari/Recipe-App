@@ -15,15 +15,15 @@
                                 class="w-full h-40 object-cover mb-4 rounded-md">
                             <h2 class="text-xl font-semibold mb-2">{{ $recipe->title }}</h2>
                             <p class="text-gray-600">{{ $recipe->description }}</p>
-        <p><strong>Categories:</strong> 
-            @foreach($recipe->categories as $category)
-                {{ $category->name }}
-            @endforeach
-        </p>                            <p><strong>Ingredients:</strong>
+                            <p><strong>Categories:</strong>
+                                @foreach ($recipe->categories as $category)
+                                    {{ $category->name }}
+                                @endforeach
+                            </p>
+                            <p><strong>Ingredients:</strong>
                                 @foreach ($recipe->ingredients as $ingredient)
                                     {{ $ingredient->name }},
                                 @endforeach
-                            </p>dforeach
                             </p>
                         </div>
                     @endforeach

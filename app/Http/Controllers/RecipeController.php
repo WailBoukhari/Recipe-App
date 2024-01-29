@@ -143,16 +143,22 @@ class RecipeController extends Controller
     }
     public function search(Request $request)
     {
-        $query = $request->input('query');
+        $searchQuery = $request->input('query');
 
         // Perform the search query
-        $recipes = Recipe::where('title', 'like', "%$query%")
-            // ->orWhere('category', 'like', "%$query%")
-            // ->orWhere('ingredients', 'like', "%$query%")
+        $recipes = Recipe::where('title', 'like', "%$searchQuery%")
+            ->orWhereHas('categories', function ($query) use ($searchQuery) {
+                $query->where('name', 'like', "%$searchQuery%");
+            })
+            ->orWhereHas('ingredients', function ($query) use ($searchQuery) {
+                $query->where('name', 'like', "%$searchQuery%");
+            })
             ->get();
 
         return view('search', compact('recipes'));
     }
+
+
 
 
 
