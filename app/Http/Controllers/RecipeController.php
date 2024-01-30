@@ -157,9 +157,4 @@ class RecipeController extends Controller
 
         return view('search', compact('recipes'));
     }
-
-
-
-
-
 }
