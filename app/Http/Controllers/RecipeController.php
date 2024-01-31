@@ -6,6 +6,8 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class RecipeController extends Controller
 {
@@ -15,7 +17,7 @@ class RecipeController extends Controller
 
     public function index()
     {
-        $recipes = Recipe::all();
+        $recipes = Recipe::where('user_id', auth()->id())->latest()->get();
         return view('recipe.index', compact('recipes'));
     }
 
@@ -48,7 +50,7 @@ class RecipeController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $image->move(public_path('images'), $imageName); // Move uploaded file to public/images directory
+            $image->move(public_path('images'), $imageName);
         } else {
             // Handle no image uploaded case
             $imageName = null;
@@ -78,6 +80,7 @@ class RecipeController extends Controller
      * Display the specified resource.
      */
     public function show(Recipe $recipe)
+
     {
         return view('recipe.show', compact('recipe'));
     }
@@ -86,7 +89,11 @@ class RecipeController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Recipe $recipe)
+
     {
+        if (Auth::id() !== $recipe->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
         $categories = Category::all();
         $ingredients = Ingredient::all();
         return view('recipe.edit', compact('recipe', 'categories', 'ingredients'));
@@ -97,6 +104,9 @@ class RecipeController extends Controller
      */
     public function update(Request $request, Recipe $recipe)
     {
+        if (Auth::id() !== $recipe->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
         // Validate the request data
         $request->validate([
             'title' => 'required|string|max:255',
@@ -137,6 +147,9 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
+        if (Auth::id() !== $recipe->user_id) {
+            abort(403, 'Unauthorized action.');
+        }
         $recipe->delete();
 
         return redirect()->route('recipes.index')->with('success', 'Recipe created successfully.');

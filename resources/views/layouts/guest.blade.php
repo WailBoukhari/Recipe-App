@@ -17,29 +17,17 @@
     </head>
 
     <body class="font-sans text-gray-900 antialiased">
-        @if (Route::has('login'))
-            <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                @auth
-                    <a href="{{ url('/dashboard') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
-                        in</a>
+        @include('layouts.navigation1')
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                    @endif
-                @endauth
-            </div>
-        @endif
-        <main
-            class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+        <main class="items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
 
             {{ $slot }}
 
         </main>
+        <!-- Footer Section -->
+        <footer class="bg-gray-900 text-white py-6 text-center">
+            <p>&copy; 2024 My Website. All Rights Reserved.</p>
+        </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
             $(document).ready(function() {
